@@ -1,9 +1,9 @@
 class Usuario {
-    constructor(nombre, apellido){
+    constructor(nombre, apellido,mascotas){
         this.nombre = nombre
         this.apellido = apellido
-        this.libros = []
-        this.mascotas = []
+        this.libros =  []
+        this.mascotas = mascotas || []
     }
 
 
@@ -13,26 +13,34 @@ obtenerNombreCompleto() {
 
 aniadirMascota(mascota) {
     this.mascotas.push(mascota)
-    return this.mascotas
 }
 
 contadorMascotas() {
-    return `El usuario tiene: ${this.mascotas.length} mascotas` 
+    return `El usuario tiene: ${this.mascotas.length} mascotas, que son: ${this.mascotas}` 
 }
 
-aniadirLibro(autor, nombreLibro) {
-    this.libros.push({autor: autor, nombre : nombreLibro })  
-    return `Los libros del usuario son:${this.libros}`
+aniadirLibro(nombre, autor) {
+
+    this.libros.push({nombre, autor})  
 }
 
 nombreDeLibros() {
-    return `Los nombres de los libros son: ${[this.libros.nombre]}`
+    console.log(`Los nombres de los libros son: ${this.libros.map( libro => libro.nombre )}`)
+}
+
+autorDeLibros() {
+    console.log(`Los autores de los libros son:${this.libros.map( libro => libro.autor )} `)
 }
 }
 const usuario = new Usuario ("Juan", "Perez")
 
 console.log(usuario.obtenerNombreCompleto())
-console.log(usuario.aniadirMascota("Percy"))
+usuario.aniadirMascota("Percy")
+usuario.aniadirMascota("Aimi")
 console.log(usuario.contadorMascotas())
-console.log(usuario.aniadirLibro("Juan", "Harry Postre", "Jose"))
-console.log(usuario.nombreDeLibros())
+usuario.aniadirLibro("Harry Postre", "Juan" )
+usuario.aniadirLibro("El anillo de los señores" ,"Jose" )
+usuario.nombreDeLibros()
+usuario.autorDeLibros()
+
+
