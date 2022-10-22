@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { resourceLimits } = require("worker_threads");
+
 
 class Contenedor {
     constructor(archivo){
@@ -98,40 +98,39 @@ getById = async(id) => {
     
 }
 
-deleteAll = async() => {
-
-    if (fs.existsSync(this.archivo)){
-        let info = await fs.promises.readFile(this.archivo, "utf-8");
-        let result = JSON.parse(info)
-
-        console.log("Se borraron todos los datos del archivo")
-        return result = []
-        
-    }
-
-}
 
 deleteById = async (id) =>{
     try {
-
+        
         if (fs.existsSync(this.archivo)){
-            let info = await fs.promises.readFile(this.archivo, "utf-8");
-            let result = JSON.parse(info)
-            if(result.some(producto => producto.id === id)){
-                const eliminando = result.filter(producto => producto.id !== id)
-                await fs.promises.writeFile(this.archivo, eliminando)
-                console.log("Producto eliminado")
-                return result
-                
+            let info = await fs.promises.readFile(this.archivo);
+            if(info.find(producto => producto.id === id)){
+                const info = await fs.promises.readFile(this.archivo)
+                const data = info.filter(producto => producto.id !== id)
+                await fs.promises.writeFile(this.archivo, data)
+            }else {
+                throw new console.error("No se encontró archivo para borrar");
             }
-
+            
         }
         
     } catch (error) {
-        console.log(error)
+        console.log("error")
     }
 }
 
+deleteAll = async() => {
+
+    try {
+    let vaciarArchivo = []
+    await fs.promises.writeFile(this.archivo, vaciarArchivo)
+    console.log("Archivo vaciado")
+    } catch (error) {
+        console.log("Ocurrió un error")
+    }
+    
+
+}
 }
 
 let contenedor = new Contenedor("productos.txt")
@@ -148,9 +147,10 @@ console.log(await contenedor.getAll())
 
 console.log(await contenedor.getById(2))
 
+console.log(await contenedor.deleteById(1))
+
 console.log(await contenedor.deleteAll())
 
-console.log(await contenedor.deleteById(1))
 }
 
 metodos()
