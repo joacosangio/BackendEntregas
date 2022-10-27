@@ -1,0 +1,22 @@
+[
+    {
+        title: "Café",
+        price: 1234,
+        thumbnail: "https://",
+        id: 1
+    },
+
+    {
+        title: "Cafetera",
+        price: 4321,
+        thumbnail: "https://",
+        id: 2
+    },
+
+    {
+        title: "Café en grano",
+        price: 5678,
+        thumbnail: "https://",
+        id: 3
+    }
+]
